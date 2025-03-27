@@ -1,0 +1,10 @@
+echo "__pycache__/
+*.py[cod]
+*.sqlite
+instance/
+.env
+venv/
+university.db
+.DS_Store
+*.log
+*.swp" > .gitignore
