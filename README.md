@@ -10,8 +10,15 @@ A Flask API that provides:
 
 ### GET /students
 Returns all students with their programs:
-```json
 [
   {\"name\": \"Alice Johnson\", \"enrolled_program\": \"Computer Science\"},
   ...
 ]
+
+
+### GET /subjects
+Returns Software Engineering subjects grouped by year:
+{
+  \"Year 1\": [\"Principles of Programming Languages\", ...],
+  ...
+}
