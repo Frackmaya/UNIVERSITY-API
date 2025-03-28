@@ -19,7 +19,7 @@ A Flask-based REST API for managing student information and academic curriculum,
 Returns a list of all registered students.
 
 **Example Response:**
-```json
+
 [
   {
     "name": "Alice Johnson",
@@ -31,10 +31,8 @@ Returns a list of all registered students.
   }
 ]
 
-GET /subjects
+## GET /subjects
 Returns the complete Software Engineering curriculum organized by year and semester
-
-Returns the complete Software Engineering curriculum organized by year and semester.
 
 Example Response
 {
@@ -51,7 +49,9 @@ Example Response
   "Year 2": {...}
 }
 
-Installation
+
+
+## Installation
 Clone the repository:
 git clone https://github.com/Frackmaya/UNIVERSITY-API.git
 
