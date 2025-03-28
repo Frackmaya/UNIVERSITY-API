@@ -18,11 +18,11 @@ class Subject(db.Model):
     academic_year = db.Column(db.Integer, nullable=False)
     program = db.Column(db.String(100), nullable=False)
 
-# Create database tables
+# Create database tables and add sample data
 with app.app_context():
     db.create_all()
     
-    # Insert sample data if tables are empty
+    # Insert sample students if empty
     if Student.query.count() == 0:
         students = [
             Student(name="Alice Johnson", enrolled_program="Computer Science"),
@@ -37,40 +37,49 @@ with app.app_context():
             Student(name="Jenny Taylor", enrolled_program="Data Science")
         ]
         db.session.bulk_save_objects(students)
-        db.session.commit()
     
+    # Insert Software Engineering subjects if empty
     if Subject.query.count() == 0:
         subjects = [
-            # Year 1
-            Subject(name="Principles of Programming Languages(CP 111)", academic_year=1, program="Software Engineering"),
-            Subject(name='Numerical Analysis for ICT(MT 1211)', academic_year=1, program="Software Engineering"),
-            Subject(name='Introduction to Probability and Statistics(ST 1210)', academic_year=1, program="Software Engineering"),
-            Subject(name='Introduction to High Level Programming(CP 123)', academic_year=1, program="Software Engineering"),
-            Subject(name='Development Perspectives(DS 102)', academic_year=1, program="Software Engineering"),
-            Subject(name='Introduction to Information Technology(IT 111)', academic_year=1, program="Software Engineering"),
-            Subject(name='Calculus(MT 1112)', academic_year=1, program="Software Engineering"),
-            Subject(name='Introduction to Computer Networking(CN 121)', academic_year=1, program="Software Engineering"),
+            # Year 1 - Semester 1
+            Subject(name="Principles of Programming Languages (CP 111)", academic_year=1, program="Software Engineering"),
+            Subject(name="Numerical Analysis for ICT (MT 1211)", academic_year=1, program="Software Engineering"),
+            Subject(name="Introduction to Probability and Statistics (ST 1210)", academic_year=1, program="Software Engineering"),
             
-            # Year 2
-            Subject(name="Data Structures and Algorithms", academic_year=2, program="Software Engineering"),
-            Subject(name="Database Systems", academic_year=2, program="Software Engineering"),
-            Subject(name="Object-Oriented Programming", academic_year=2, program="Software Engineering"),
-            Subject(name="Software Engineering Principles", academic_year=2, program="Software Engineering"),
+            # Year 1 - Semester 2
+            Subject(name="Introduction to High Level Programming (CP 123)", academic_year=1, program="Software Engineering"),
+            Subject(name="Development Perspectives (DS 102)", academic_year=1, program="Software Engineering"),
+            Subject(name="Introduction to Information Technology (IT 111)", academic_year=1, program="Software Engineering"),
+            Subject(name="Calculus (MT 1112)", academic_year=1, program="Software Engineering"),
+            Subject(name="Introduction to Computer Networking (CN 121)", academic_year=1, program="Software Engineering"),
             
-            # Year 3
-            Subject(name="Software Design and Architecture", academic_year=3, program="Software Engineering"),
-            Subject(name="Operating Systems", academic_year=3, program="Software Engineering"),
-            Subject(name="Computer Networks", academic_year=3, program="Software Engineering"),
-            Subject(name="Software Testing", academic_year=3, program="Software Engineering"),
+            # Year 2 - Semester 1
+            Subject(name="Data Structures and Algorithms (CP 211)", academic_year=2, program="Software Engineering"),
+            Subject(name="Database Systems (CP 212)", academic_year=2, program="Software Engineering"),
             
-            # Year 4
-            Subject(name="Distributed Systems", academic_year=4, program="Software Engineering"),
-            Subject(name="Machine Learning for Software Engineering", academic_year=4, program="Software Engineering"),
-            Subject(name="Software Project Management", academic_year=4, program="Software Engineering"),
-            Subject(name="Capstone Project", academic_year=4, program="Software Engineering")
+            # Year 2 - Semester 2
+            Subject(name="Object-Oriented Programming (CP 223)", academic_year=2, program="Software Engineering"),
+            Subject(name="Software Engineering Principles (SE 222)", academic_year=2, program="Software Engineering"),
+            
+            # Year 3 - Semester 1
+            Subject(name="Software Design and Architecture (SE 311)", academic_year=3, program="Software Engineering"),
+            Subject(name="Operating Systems (CP 312)", academic_year=3, program="Software Engineering"),
+            
+            # Year 3 - Semester 2
+            Subject(name="Computer Networks (CN 321)", academic_year=3, program="Software Engineering"),
+            Subject(name="Software Testing (SE 322)", academic_year=3, program="Software Engineering"),
+            
+            # Year 4 - Semester 1
+            Subject(name="Distributed Systems (SE 411)", academic_year=4, program="Software Engineering"),
+            Subject(name="Machine Learning for Software Engineering (AI 412)", academic_year=4, program="Software Engineering"),
+            
+            # Year 4 - Semester 2
+            Subject(name="Software Project Management (SE 421)", academic_year=4, program="Software Engineering"),
+            Subject(name="Capstone Project (SE 422)", academic_year=4, program="Software Engineering")
         ]
         db.session.bulk_save_objects(subjects)
-        db.session.commit()
+    
+    db.session.commit()
 
 # API Endpoints
 @app.route('/students', methods=['GET'])
@@ -86,15 +95,36 @@ def get_students():
 def get_subjects():
     subjects = Subject.query.filter_by(program="Software Engineering").order_by(Subject.academic_year).all()
     
-    # Organize subjects by academic year
-    subjects_by_year = {}
+    # Organize by year and semester
+    curriculum = {
+        "Year 1": {
+            "Semester 1": [],
+            "Semester 2": []
+        },
+        "Year 2": {
+            "Semester 1": [],
+            "Semester 2": []
+        },
+        "Year 3": {
+            "Semester 1": [],
+            "Semester 2": []
+        },
+        "Year 4": {
+            "Semester 1": [],
+            "Semester 2": []
+        }
+    }
+    
     for subject in subjects:
         year_key = f"Year {subject.academic_year}"
-        if year_key not in subjects_by_year:
-            subjects_by_year[year_key] = []
-        subjects_by_year[year_key].append(subject.name)
+        semester_key = "Semester 1" if subject.id % 2 == 1 else "Semester 2"
+        curriculum[year_key][semester_key].append({
+            "code": subject.name.split("(")[-1].replace(")", ""),
+            "name": subject.name.split("(")[0].strip(),
+            "full_name": subject.name
+        })
     
-    return jsonify(subjects_by_year)
+    return jsonify(curriculum)
 
 if __name__ == '__main__':
     app.run(debug=True)
