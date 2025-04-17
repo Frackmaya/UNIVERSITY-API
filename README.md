@@ -99,7 +99,21 @@ Running the Application
 - **Advantages**:
   - Faster than full backup.
   - Simpler restoration than incremental.
-  
+
 - **Disadvantages**:
   - Storage usage increases over time.
   - Restoration takes longer than full.
+
+
+## bash_scripts Directory
+
+Contains three automation scripts:
+
+- **health_check.sh**: Logs CPU, memory, disk, Nginx status, and `/students` & `/subjects` endpoints to `/var/log/server_health.log`.  
+- **backup_api.sh**: Archives your Flask project and SQLite DB to `~/backups/`, removes backups older than 7 days, logs to `/var/log/backup.log`.  
+- **update_server.sh**: Runs `apt update/upgrade`, `git pull`, restarts `university.service` and Nginx, logs to `/var/log/update.log`.
+
+### Setup
+```bash
+cd bash_scripts
+chmod +x *.sh
