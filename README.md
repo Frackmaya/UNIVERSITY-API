@@ -69,3 +69,37 @@ pip install -r requirements.txt
 Initialize the database:
 python init_db.py  # Optional - included in app.py
 Running the Application
+
+## Backup Schemes
+
+ 1. Full Backup
+- **Execution**: Copies all files and databases in their entirety.
+
+- **Advantages**:
+  - Simple to restore.
+  - Complete data snapshot.
+
+- **Disadvantages**:
+  - Time-consuming and storage-intensive.
+  - Often redundant if little has changed.
+
+ 2. Incremental Backup
+- **Execution**: Only backs up data changed since the last backup (full or incremental).
+
+- **Advantages**:
+  - Saves time and storage.
+
+- **Disadvantages**:
+  - Restoration takes longer (needs last full + all incrementals).
+  - Slightly more complex backup chain.
+
+ 3. Differential Backup
+- **Execution**: Backs up data changed since the last full backup.
+
+- **Advantages**:
+  - Faster than full backup.
+  - Simpler restoration than incremental.
+  
+- **Disadvantages**:
+  - Storage usage increases over time.
+  - Restoration takes longer than full.

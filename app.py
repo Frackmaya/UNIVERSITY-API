@@ -82,6 +82,11 @@ with app.app_context():
     db.session.commit()
 
 # API Endpoints
+@app.route('/')
+def index():
+    return 'Hello, Flask is running!'
+
+
 @app.route('/students', methods=['GET'])
 def get_students():
     students = Student.query.all()
@@ -126,5 +131,6 @@ def get_subjects():
     
     return jsonify(curriculum)
 
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)
