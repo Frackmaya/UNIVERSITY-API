@@ -1,0 +1,9 @@
+services:
+  flask-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/UNIVERSITY-API
+    working_dir: /UNIVERSITY-API
+    command: python app.py
