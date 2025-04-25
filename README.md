@@ -117,3 +117,15 @@ Contains three automation scripts:
 ```bash
 cd bash_scripts
 chmod +x *.sh
+
+
+## Docker-Based University API
+
+```bash
+# Clone the repo
+git clone https://github.com/Frackmaya/UNIVERSITY-API.git
+cd university-api
+
+# Build Docker images
+docker-compose build
+
