@@ -129,3 +129,8 @@ cd university-api
 # Build Docker images
 docker-compose build
 
+
+#URL of the Docker regisrty to my images
+https://hub.docker.com/r/youn9uru/university-api-flask-api
+
+
