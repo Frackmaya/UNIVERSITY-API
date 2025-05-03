@@ -117,7 +117,7 @@ Contains three automation scripts:
 ```bash
 cd bash_scripts
 chmod +x *.sh
-
+```
 
 ## Docker-Based University API
 
@@ -128,7 +128,7 @@ cd university-api
 
 # Build Docker images
 docker-compose build
-
+```
 
 #URL of the Docker regisrty to my images
 https://hub.docker.com/r/youn9uru/university-api-flask-api
@@ -140,7 +140,7 @@ https://hub.docker.com/r/youn9uru/university-api-flask-api
 ```bash
 docker build -t university-api-frontend1 ./frontend
 
-
+```
 ##To run the Front-end container
 
 ```bash
@@ -149,7 +149,7 @@ docker run -d -p 3000:3000 university-api-frontend1
 
 
 
----
+```
 
 ### 🔁 **2. Load Balancer Setup (Round-Robin + Health Checks)**
 
@@ -157,7 +157,8 @@ docker run -d -p 3000:3000 university-api-frontend1
 
 We are using **Nginx** as the load balancer, configured to use the **round-robin** algorithm. Here's a snippet of the config:
 
-```nginx
+```bash
+nginx
 upstream frontend {
     server frontend1:3000;
     server frontend2:3000;
